@@ -12,3 +12,4 @@ function App() {
 }
 
 export default App
+// app ka sara stucture yaha hai 

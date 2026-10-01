@@ -12,7 +12,7 @@ import AdminProfile from './AdminProfile'
 function AdminForms() {
   return (
     <div className="container py-5" style={{ maxWidth: '700px' }}>
-       {/* <AdminLogin />  */}
+       <AdminLogin /> 
        {/* <SignUp />  */}
        {/* <AddProduct />  */}
        {/* <EditProduct />  */}
@@ -20,7 +20,7 @@ function AdminForms() {
       {/* <OrderStatus />  */}
       {/* <CustomerManagement />  */}
       {/* <CouponForm /> */}
-       <AdminProfile /> 
+       {/* <AdminProfile />  */}
     </div>
   )
 }
