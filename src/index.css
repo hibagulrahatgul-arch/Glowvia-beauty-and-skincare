@@ -1,0 +1,121 @@
+/* ==================== GLOWVIA CUSTOM STYLES ==================== */
+
+:root {
+  --pink: #e75480;
+  --pink-dark: #c94268;
+  --pink-light: #fdeef2;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Text / brand color */
+.text-pink {
+  color: var(--pink) !important;
+}
+
+/* Pink buttons */
+.btn-pink {
+  background-color: var(--pink);
+  border-color: var(--pink);
+  color: #fff;
+}
+
+.btn-pink:hover,
+.btn-pink:focus {
+  background-color: var(--pink-dark);
+  border-color: var(--pink-dark);
+  color: #fff;
+}
+
+/* white section background */
+.bg-white {
+  background-color: var(white);
+}
+
+/* ==================== CAROUSEL ==================== */
+.slide-img {
+  height: 70vh;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+.carousel-caption {
+  bottom: 50%;
+  transform: translateY(50%);
+}
+
+.carousel-caption h1 {
+  font-size: 2.5rem;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-caption p {
+  font-size: 1.1rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ==================== CARDS ==================== */
+.card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+  height: 220px;
+  object-fit: cover;
+}
+
+/* ==================== ABOUT US ==================== */
+.about-us-section {
+  background: linear-gradient(180deg, var(white) 0%, #ffffff 100%);
+}
+
+.about-us-section .badge-pink {
+  display: inline-block;
+  padding: 0.35rem 1rem;
+  border-radius: 50px;
+  background-color: var(--pink);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.about-stat {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.75rem 1rem;
+  height: 100%;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+}
+
+.about-stat:hover {
+  transform: translateY(-5px);
+}
+
+.about-stat h3 {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+/* ==================== FOOTER ==================== */
+footer .footer-link {
+  color: #ddd;
+  text-decoration: none;
+}
+
+footer .footer-link:hover {
+  color: var(--pink);
+  text-decoration: underline;
+}
