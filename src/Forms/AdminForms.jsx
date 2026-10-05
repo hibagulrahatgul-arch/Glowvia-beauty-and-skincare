@@ -13,14 +13,14 @@ function AdminForms() {
   return (
     <div className="container py-5" style={{ maxWidth: '700px' }}>
        <AdminLogin /> 
-       {/* <SignUp />  */}
-       {/* <AddProduct />  */}
-       {/* <EditProduct />  */}
-      {/* <CategoryForm /> */}
-      {/* <OrderStatus />  */}
-      {/* <CustomerManagement />  */}
-      {/* <CouponForm /> */}
-       {/* <AdminProfile />  */}
+       <SignUp /> 
+       <AddProduct /> 
+       <EditProduct /> 
+      <CategoryForm />
+      <OrderStatus /> 
+      <CustomerManagement /> 
+      <CouponForm />
+       <AdminProfile /> ``
     </div>
   )
 }
