@@ -58,7 +58,9 @@ function App() {
             <Link className="btn btn-pink me-lg-3 mb-3 mb-lg-0" to="/admin">
               Admin Dashboard
             </Link>
-
+            <Link className="btn btn-outline-secondary me-lg-3 mb-3 mb-lg-0" to="/customer">
+              Customer Login
+            </Link>
             <form className="d-flex" role="search">
               <input
                 className="form-control me-2"
