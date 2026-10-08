@@ -1,4 +1,5 @@
 import './App.css'
+import {Link} from 'react-router-dom'
 
 function App() {
   return (
@@ -6,7 +7,7 @@ function App() {
       {/* ======== NAVBAR ======== */}
       <nav className="navbar navbar-expand-lg bg-body-tertiary sticky-top shadow-sm">
         <div className="container">
-          <a className="navbar-brand fw-bold text-pink" href="#">GLOWVIA</a>
+          <Link className="navbar-brand fw-bold text-pink" to="/">GLOWVIA</Link>
 
           <button
             className="navbar-toggler"
@@ -23,38 +24,40 @@ function App() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#home">Home</a>
+                <Link className="nav-link active" aria-current="page" to="/">Home</Link>
               </li>
 
               <li className="nav-item">
-                <a className="nav-link" href="#products">Shop</a>
+                <Link className="nav-link" to="/products">Shop</Link>
               </li>
 
               <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
+                <Link to="/category" className="nav-link dropdown-toggle"
                   role="button"
                   data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
+                  aria-expanded="false">
+
                   Categories
-                </a>
+                </Link>
                 <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="#category">Skincare</a></li>
-                  <li><a className="dropdown-item" href="#category">Makeup</a></li>
-                  <li><a className="dropdown-item" href="#category">Body Care</a></li>
+                  <li><Link className="dropdown-item" to="/category/skincare">Skincare</Link></li>
+                  <li><Link className="dropdown-item" to="/category/makeup">Makeup</Link></li>
+                  <li><Link className="dropdown-item" to="/category/body-care">Body Care</Link></li>
                 </ul>
               </li>
 
               <li className="nav-item">
-                <a className="nav-link" href="#about-us">About</a>
+                <Link className="nav-link" to="/about-us">About</Link>
               </li>
 
               <li className="nav-item">
-                <a className="nav-link" href="#contact">Contact</a>
+                <Link className="nav-link" to="/contact">Contact</Link>
               </li>
             </ul>
+
+            <Link className="btn btn-pink me-lg-3 mb-3 mb-lg-0" to="/admin">
+              Admin Dashboard
+            </Link>
 
             <form className="d-flex" role="search">
               <input
@@ -84,7 +87,7 @@ function App() {
               <div className="carousel-caption">
                 <h1 className="fw-bold">Glowvia Beauty Skincare</h1>
                 <p>Skin that feels like you gentle formulas made with natural ingredients only.</p>
-                <a href="#products" className="btn btn-pink">Shop Now</a>
+                <Link to="/products" className="btn btn-pink">Shop Now</Link>
               </div>
             </div>
 
@@ -93,7 +96,7 @@ function App() {
               <div className="carousel-caption">
                 <h1 className="fw-bold">Glowvia Beauty Skincare</h1>
                 <p>Skin that feels like you gentle formulas made with natural ingredients only.</p>
-                <a href="#products" className="btn btn-pink">Shop Now</a>
+                <Link to="/products" className="btn btn-pink">Shop Now</Link>
               </div>
             </div>
 
@@ -102,7 +105,7 @@ function App() {
               <div className="carousel-caption">
                 <h1 className="fw-bold">Glowvia Beauty Skincare</h1>
                 <p>Skin that feels like you gentle formulas made with natural ingredients only.</p>
-                <a href="#products" className="btn btn-pink">Shop Now</a>
+                <Link to="/products" className="btn btn-pink">Shop Now</Link>
               </div>
             </div>
           </div>
@@ -276,9 +279,9 @@ function App() {
             <div className="col-md-4 mb-3 mb-md-0">
               <h5 className="fw-bold">Quick Links</h5>
               <ul className="list-unstyled">
-                <li><a href="#home" className="footer-link">Home</a></li>
-                <li><a href="#products" className="footer-link">Shop</a></li>
-                <li><a href="#about-us" className="footer-link">About Us</a></li>
+                <li><Link to="/" className="footer-link">Home</Link></li>
+                <li><Link to="/products" className="footer-link">Shop</Link></li>
+                <li><Link to="/about-us" className="footer-link">About Us</Link></li>
               </ul>
             </div>
 

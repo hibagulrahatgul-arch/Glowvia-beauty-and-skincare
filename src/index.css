@@ -29,9 +29,13 @@ body {
   color: #fff;
 }
 
+.admin-form-content {
+  max-width: 760px;
+}
+
 /* white section background */
 .bg-white {
-  background-color: var(white);
+  background-color: #fff;
 }
 
 /* ==================== CAROUSEL ==================== */
@@ -76,7 +80,7 @@ body {
 
 /* ==================== ABOUT US ==================== */
 .about-us-section {
-  background: linear-gradient(180deg, var(white) 0%, #ffffff 100%);
+  background: linear-gradient(180deg, #fff 0%, #ffffff 100%);
 }
 
 .about-us-section .badge-pink {
