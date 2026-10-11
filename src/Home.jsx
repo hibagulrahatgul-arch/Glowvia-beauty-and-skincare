@@ -55,12 +55,17 @@ function App() {
               </li>
             </ul>
 
-            <Link className="btn btn-pink me-lg-3 mb-3 mb-lg-0" to="/admin">
-              Admin Dashboard
-            </Link>
-            <Link className="btn btn-outline-secondary me-lg-3 mb-3 mb-lg-0" to="/customer">
-              Customer Login
-            </Link>
+            <div className="d-flex flex-column flex-lg-row gap-2 me-lg-3 mb-3 mb-lg-0">
+              <Link className="btn btn-pink" to="/admin">
+                Admin
+              </Link>
+              <Link className="btn btn-pink" to="/customer">
+                Customer
+              </Link>
+              <Link className="btn btn-pink" to="/rider">
+                Rider
+              </Link>
+            </div>
             <form className="d-flex" role="search">
               <input
                 className="form-control me-2"

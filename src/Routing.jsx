@@ -1,92 +1,61 @@
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
-import { createBrowserRouter } from 'react-router-dom';
-
-import App from './Home.jsx'
-import EditProduct from './Forms/EditProduct.jsx'
-import AdminForms, { AdminWelcome } from './Forms/AdminForms.jsx'
-import AddProduct from './Forms/AddProduct.jsx'
-import CategoryForm from './Forms/CategoryForm.jsx'
-import OrderStatus from './Forms/OrderStatus.jsx'
-import CustomerManagement from './Forms/CustomerManagement.jsx'
-import CouponForm from './Forms/CouponForm.jsx'
-import AdminProfile from './Forms/AdminProfile.jsx'
-import AdminLogin from './Forms/AdminLogin.jsx'
-import SignUp from './Forms/SignUp.jsx'
-import CustomerAuth from './Forms/CustomerAuth.jsx'
-import CustomerProfile from './Forms/CustomerProfile.jsx'
-import CustomerAddress from './Forms/CustomerAddress.jsx'
-import CustomerFeedback from './Forms/CustomerFeedback.jsx'
-import OrderCheckout from './Forms/OrderCheckout.jsx'
-import OrderDetails from './Forms/OrderDetails.jsx'
-import OrderHistory from './Forms/OrderHistory.jsx'
-import CustomerDashboard from './Forms/CustomerDashboard.jsx'
-import CustomerOrderStatus from './Forms/CustomerOrderStatus.jsx'
+import Home from './Home.jsx';
+import AdminForms, { AdminWelcome } from './Forms/AdminForms.jsx';
+import AllForms from './Forms/AllForms.jsx';
+import AddProduct from './Forms/AddProduct.jsx';
+import AdminLogin from './Forms/AdminLogin.jsx';
+import CustomerLogin from './Forms/CustomerLogin.jsx';
+import CustomerSignUp from './Forms/CustomerSignUp.jsx';
+import DeleteProduct from './Forms/DeleteProduct.jsx';
+import ManageComplaints from './Forms/ManageComplaints.jsx';
+import ManageMembership from './Forms/ManageMembership.jsx';
+import OrderDeliver from './Forms/OrderDeliver.jsx';
+import OrderPickup from './Forms/OrderPickup.jsx';
+import PlaceOrder from './Forms/PlaceOrder.jsx';
+import SubmitComplaint from './Forms/SubmitComplaint.jsx';
+import UpdateProduct from './Forms/UpdateProduct.jsx';
+import ViewProducts from './Forms/ViewProducts.jsx';
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
+    path: '/',
+    element: <Home />,
   },
   {
-    path: "/customer",
-    element: <CustomerAuth />,
-  },
-  {
-    path: "/customer/dashboard",
-    element: <CustomerDashboard />,
-  },
-  {
-    path: "/customer/profile",
-    element: <CustomerProfile />,
-  },
-  {
-    path: "/customer/address",
-    element: <CustomerAddress />,
-  },
-  {
-    path: "/customer/feedback",
-    element: <CustomerFeedback />,
-  },
-  {
-    path: "/checkout",
-    element: <OrderCheckout />,
-  },
-  {
-    path: "/orders",
-    element: <OrderHistory />,
-  },
-  {
-    path: "/orders/:orderId",
-    element: <OrderDetails />,
-  },
-  {
-    path: "/orders/details",
-    element: <OrderDetails />,
-  },
-  {
-    path: "/orders/status",
-    element: <CustomerOrderStatus />,
-  },
-  {
-    path: "/orders/history",
-    element: <OrderHistory />,
-  },
-  {
-    path: "/admin",
+    path: '/admin',
     element: <AdminForms />,
     children: [
       { index: true, element: <AdminWelcome /> },
-      { path: "add-product", element: <AddProduct /> },
-      { path: "edit-product", element: <EditProduct /> },
-      { path: "category-form", element: <CategoryForm /> },
-      { path: "order-status", element: <OrderStatus /> },
-      { path: "customer-management", element: <CustomerManagement /> },
-      { path: "coupon-form", element: <CouponForm /> },
-      { path: "admin-profile", element: <AdminProfile /> },
-      { path: "admin-login", element: <AdminLogin /> },
-      { path: "sign-up", element: <SignUp /> },
+      { path: 'admin-login', element: <AdminLogin /> },
+      { path: 'add-product', element: <AddProduct /> },
+      { path: 'update-product', element: <UpdateProduct /> },
+      { path: 'delete-product', element: <DeleteProduct /> },
+      { path: 'view-products', element: <ViewProducts /> },
+      { path: 'manage-complaints', element: <ManageComplaints /> },
+      { path: 'manage-membership', element: <ManageMembership /> },
     ],
   },
-]
-);
+  {
+    path: '/customer',
+    element: <AllForms group="Customer" />,
+    children: [
+      { index: true, element: <Navigate to="login" replace /> },
+      { path: 'login', element: <CustomerLogin /> },
+      { path: 'sign-up', element: <CustomerSignUp /> },
+      { path: 'place-order', element: <PlaceOrder /> },
+      { path: 'submit-complaint', element: <SubmitComplaint /> },
+    ],
+  },
+  {
+    path: '/rider',
+    element: <AllForms group="Rider" />,
+    children: [
+      { index: true, element: <Navigate to="order-pickup" replace /> },
+      { path: 'order-pickup', element: <OrderPickup /> },
+      { path: 'order-deliver', element: <OrderDeliver /> },
+    ],
+  },
+]);
+
 export default router;

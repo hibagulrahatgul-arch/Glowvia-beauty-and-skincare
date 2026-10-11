@@ -1,57 +1,46 @@
+import React, { useState } from 'react';
+
 function AddProduct() {
+  const [formData, setFormData] = useState({ name: '', category: '', price: '', quantity: '' });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(Object.fromEntries(new FormData(e.target)))
-  }
+    e.preventDefault();
+    console.log('New Product:', formData);
+    alert('Product Added!');
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3 className="mb-4">Add Product</h3>
-
-      <div className="mb-3">
-        <label className="form-label">Product Name</label>
-        <input type="text" className="form-control" name="name" required />
+    <div className="card shadow-sm mx-auto" style={{ maxWidth: '500px' }}>
+      <div className="card-body p-4">
+        <h3 className="card-title text-center mb-4">Add Product</h3>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Product Name</label>
+            <input type="text" name="name" className="form-control" value={formData.name} onChange={handleChange} required />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Category</label>
+            <input type="text" name="category" className="form-control" value={formData.category} onChange={handleChange} required />
+          </div>
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Price (Rs.)</label>
+              <input type="number" name="price" className="form-control" value={formData.price} onChange={handleChange} required />
+            </div>
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Quantity</label>
+              <input type="number" name="quantity" className="form-control" value={formData.quantity} onChange={handleChange} required />
+            </div>
+          </div>
+          <button type="submit" className="btn btn-pink w-100">Add Product</button>
+        </form>
       </div>
-
-      <div className="mb-3">
-        <label className="form-label">Description</label>
-        <textarea className="form-control" name="description" rows="3"></textarea>
-      </div>
-
-      <div className="row">
-        <div className="col-md-4 mb-3">
-          <label className="form-label">Price (Rs)</label>
-          <input type="number" className="form-control" name="price" required />
-        </div>
-        <div className="col-md-4 mb-3">
-          <label className="form-label">Discount (%)</label>
-          <input type="number" className="form-control" name="discount" defaultValue="0" />
-        </div>
-        <div className="col-md-4 mb-3">
-          <label className="form-label">Stock Quantity</label>
-          <input type="number" className="form-control" name="stock" required />
-        </div>
-      </div>
-
-      <div className="mb-3">
-        <label className="form-label">Category</label>
-        <select className="form-select" name="category" required>
-          <option value="">Select category</option>
-          <option>Skincare</option>
-          <option>Makeup</option>
-          <option>Body Care</option>
-          <option>Beauty Essentials</option>
-        </select>
-      </div>
-
-      <div className="mb-3">
-        <label className="form-label">Product Image</label>
-        <input type="file" className="form-control" name="image" accept="image/*" />
-      </div>
-
-      <button type="submit" className="btn btn-pink">Add Product</button>
-    </form>
-  )
+    </div>
+  );
 }
 
-export default AddProduct
+export default AddProduct;
