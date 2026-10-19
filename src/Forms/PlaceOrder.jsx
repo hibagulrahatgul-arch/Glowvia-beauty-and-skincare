@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 const dummyProducts = [
   { id: 1, name: 'Hydrating Face Serum', price: 1299 },
@@ -7,13 +9,24 @@ const dummyProducts = [
   { id: 4, name: 'Lip Care Balm', price: 499 },
 ];
 
+const placeOrderSchema = z.object({
+  productId: z.string().min(1, 'Select a product'),
+  quantity: z.string().min(1, 'Quantity is required').refine((value) => Number.isInteger(Number(value)) && Number(value) > 0, 'Quantity must be a positive whole number'),
+  address: z.string().trim().min(1, 'Delivery address is required'),
+  paymentMethod: z.string().min(1, 'Select a payment method'),
+});
+
 function PlaceOrder() {
-  const [formData, setFormData] = useState({ productId: '', quantity: 1, address: '', paymentMethod: 'Cash on Delivery' });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(placeOrderSchema),
+    defaultValues: { productId: '', quantity: '1', address: '', paymentMethod: 'Cash on Delivery' },
+  });
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleFormSubmit = (formData) => {
     console.log('Order Placed:', formData);
     alert('Order Placed Successfully!');
   };
@@ -22,27 +35,30 @@ function PlaceOrder() {
     <div className="card shadow-sm mx-auto" style={{ maxWidth: '500px' }}>
       <div className="card-body p-4">
         <h3 className="card-title text-center mb-4">Place Order / Checkout</h3>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="mb-3">
             <label className="form-label">Select Product</label>
-            <select name="productId" className="form-select" value={formData.productId} onChange={handleChange} required>
+            <select className="form-select" {...register('productId')}>
               <option value="">-- Choose Product --</option>
               {dummyProducts.map((p) => (
                 <option key={p.id} value={p.id}>{p.name} — Rs. {p.price}</option>
               ))}
             </select>
+            {errors.productId && <span className="text-danger">{errors.productId.message}</span>}
           </div>
           <div className="mb-3">
             <label className="form-label">Quantity</label>
-            <input type="number" name="quantity" className="form-control" min="1" value={formData.quantity} onChange={handleChange} required />
+            <input type="number" className="form-control" min="1" {...register('quantity')} />
+            {errors.quantity && <span className="text-danger">{errors.quantity.message}</span>}
           </div>
           <div className="mb-3">
             <label className="form-label">Delivery Address</label>
-            <textarea name="address" className="form-control" rows="3" value={formData.address} onChange={handleChange} required></textarea>
+            <textarea className="form-control" rows="3" {...register('address')}></textarea>
+            {errors.address && <span className="text-danger">{errors.address.message}</span>}
           </div>
           <div className="mb-3">
             <label className="form-label">Payment Method</label>
-            <select name="paymentMethod" className="form-select" value={formData.paymentMethod} onChange={handleChange}>
+            <select className="form-select" {...register('paymentMethod')}>
               <option>Cash on Delivery</option>
               <option>Credit / Debit Card</option>
               <option>Easypaisa / JazzCash</option>

@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const signUpSchema = z.object({
+  name: z.string().trim().min(1, 'Name is required'),
+  email: z.string().trim().min(1, 'Email is required').email('Enter a valid email address'),
+  phone: z.string().trim().min(1, 'Phone number is required'),
+  password: z.string().min(1, 'Password is required'),
+  confirmPassword: z.string().min(1, 'Please confirm your password'),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: 'Password and Confirm Password do not match.',
+  path: ['confirmPassword'],
+});
 
 function CustomerSignUp() {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', password: '', confirmPassword: '' });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: { name: '', email: '', phone: '', password: '', confirmPassword: '' },
+  });
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert('Password and Confirm Password do not match.');
-      return;
-    }
+  const handleFormSubmit = (formData) => {
     console.log('Customer Sign Up:', formData);
     alert('Sign Up Successful!');
   };
@@ -19,26 +32,31 @@ function CustomerSignUp() {
     <div className="card shadow-sm mx-auto" style={{ maxWidth: '480px' }}>
       <div className="card-body p-4">
         <h3 className="card-title text-center mb-4">Customer Sign Up</h3>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="mb-3">
             <label className="form-label">Full Name</label>
-            <input type="text" name="name" className="form-control" value={formData.name} onChange={handleChange} required />
+            <input type="text" className="form-control" {...register('name')} />
+            {errors.name && <span className="text-danger">{errors.name.message}</span>}
           </div>
           <div className="mb-3">
             <label className="form-label">Email</label>
-            <input type="email" name="email" className="form-control" value={formData.email} onChange={handleChange} required />
+            <input type="email" className="form-control" {...register('email')} />
+            {errors.email && <span className="text-danger">{errors.email.message}</span>}
           </div>
           <div className="mb-3">
             <label className="form-label">Phone Number</label>
-            <input type="tel" name="phone" className="form-control" value={formData.phone} onChange={handleChange} required />
+            <input type="tel" className="form-control" {...register('phone')} />
+            {errors.phone && <span className="text-danger">{errors.phone.message}</span>}
           </div>
           <div className="mb-3">
             <label className="form-label">Password</label>
-            <input type="password" name="password" className="form-control" value={formData.password} onChange={handleChange} required />
+            <input type="password" className="form-control" {...register('password')} />
+            {errors.password && <span className="text-danger">{errors.password.message}</span>}
           </div>
           <div className="mb-3">
             <label className="form-label">Confirm Password</label>
-            <input type="password" name="confirmPassword" className="form-control" value={formData.confirmPassword} onChange={handleChange} required />
+            <input type="password" className="form-control" {...register('confirmPassword')} />
+            {errors.confirmPassword && <span className="text-danger">{errors.confirmPassword.message}</span>}
           </div>
           <button type="submit" className="btn btn-pink w-100">Sign Up</button>
         </form>

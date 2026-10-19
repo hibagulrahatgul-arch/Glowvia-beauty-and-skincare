@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const loginSchema = z.object({
+  email: z.string().trim().min(1, 'Email is required').email('Enter a valid email address'),
+  password: z.string().min(1, 'Password is required'),
+});
 
 function CustomerLogin() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(loginSchema), defaultValues: { email: '', password: '' } });
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleFormSubmit = (formData) => {
     console.log('Customer Login:', formData);
     alert('Login Submitted!');
   };
@@ -15,14 +23,16 @@ function CustomerLogin() {
     <div className="card shadow-sm mx-auto" style={{ maxWidth: '450px' }}>
       <div className="card-body p-4">
         <h3 className="card-title text-center mb-4">Customer Login</h3>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="mb-3">
             <label className="form-label">Email</label>
-            <input type="email" name="email" className="form-control" value={formData.email} onChange={handleChange} required />
+            <input type="email" className="form-control" {...register('email')} />
+            {errors.email && <span className="text-danger">{errors.email.message}</span>}
           </div>
           <div className="mb-3">
             <label className="form-label">Password</label>
-            <input type="password" name="password" className="form-control" value={formData.password} onChange={handleChange} required />
+            <input type="password" className="form-control" {...register('password')} />
+            {errors.password && <span className="text-danger">{errors.password.message}</span>}
           </div>
           <button type="submit" className="btn btn-pink w-100">Login</button>
         </form>

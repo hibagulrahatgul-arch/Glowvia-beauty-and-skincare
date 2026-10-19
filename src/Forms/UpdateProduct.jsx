@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 const dummyProducts = [
   { id: 1, name: 'Hydrating Face Serum' },
@@ -7,15 +9,23 @@ const dummyProducts = [
   { id: 4, name: 'Lip Care Balm' },
 ];
 
+const updateProductSchema = z.object({
+  productId: z.string().min(1, 'Select a product'),
+  price: z.string().refine((value) => value === '' || Number(value) > 0, 'Price must be greater than 0'),
+  quantity: z.string().refine((value) => value === '' || (Number.isInteger(Number(value)) && Number(value) > 0), 'Quantity must be a positive whole number'),
+});
+
 function UpdateProduct() {
-  const [formData, setFormData] = useState({ productId: '', price: '', quantity: '' });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(updateProductSchema),
+    defaultValues: { productId: '', price: '', quantity: '' },
+  });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleFormSubmit = (formData) => {
     console.log('Updated Product:', formData);
     alert('Product Updated!');
   };
@@ -24,24 +34,27 @@ function UpdateProduct() {
     <div className="card shadow-sm mx-auto" style={{ maxWidth: '500px' }}>
       <div className="card-body p-4">
         <h3 className="card-title text-center mb-4">Update Product</h3>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="mb-3">
             <label className="form-label">Select Product</label>
-            <select name="productId" className="form-select" value={formData.productId} onChange={handleChange} required>
+            <select className="form-select" {...register('productId')}>
               <option value="">-- Choose Product --</option>
               {dummyProducts.map((p) => (
                 <option key={p.id} value={p.id}>{p.name}</option>
               ))}
             </select>
+            {errors.productId && <span className="text-danger">{errors.productId.message}</span>}
           </div>
           <div className="row">
             <div className="col-md-6 mb-3">
               <label className="form-label">New Price (Rs.)</label>
-              <input type="number" name="price" className="form-control" value={formData.price} onChange={handleChange} />
+              <input type="number" className="form-control" {...register('price')} />
+              {errors.price && <span className="text-danger">{errors.price.message}</span>}
             </div>
             <div className="col-md-6 mb-3">
               <label className="form-label">New Quantity</label>
-              <input type="number" name="quantity" className="form-control" value={formData.quantity} onChange={handleChange} />
+              <input type="number" className="form-control" {...register('quantity')} />
+              {errors.quantity && <span className="text-danger">{errors.quantity.message}</span>}
             </div>
           </div>
           <button type="submit" className="btn btn-pink w-100">Update Product</button>

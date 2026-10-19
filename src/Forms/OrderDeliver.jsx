@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 const dummyOrders = [
   { id: 101, customer: 'Ali Raza' },
@@ -6,36 +8,46 @@ const dummyOrders = [
   { id: 103, customer: 'Bilal Ahmed' },
 ];
 
+const orderDeliverSchema = z.object({
+  orderId: z.string().min(1, 'Select an order'),
+  notes: z.string(),
+});
+
 function OrderDeliver() {
-  const [formData, setFormData] = useState({ orderId: '', notes: '' });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(orderDeliverSchema),
+    defaultValues: { orderId: '', notes: '' },
+  });
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!formData.orderId) return;
+  const handleFormSubmit = (formData) => {
     console.log('Order Delivered:', formData);
     alert('Order Marked as Delivered!');
-    setFormData({ orderId: '', notes: '' });
+    reset();
   };
 
   return (
     <div className="card shadow-sm mx-auto" style={{ maxWidth: '450px' }}>
       <div className="card-body p-4">
         <h3 className="card-title text-center mb-4">Order Deliver</h3>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="mb-3">
             <label className="form-label">Select Order</label>
-            <select name="orderId" className="form-select" value={formData.orderId} onChange={handleChange} required>
+            <select className="form-select" {...register('orderId')}>
               <option value="">-- Choose Order --</option>
               {dummyOrders.map((o) => (
                 <option key={o.id} value={o.id}>Order #{o.id} — {o.customer}</option>
               ))}
             </select>
+            {errors.orderId && <span className="text-danger">{errors.orderId.message}</span>}
           </div>
           <div className="mb-3">
             <label className="form-label">Delivery Notes (optional)</label>
-            <textarea name="notes" className="form-control" rows="3" value={formData.notes} onChange={handleChange}></textarea>
+            <textarea className="form-control" rows="3" {...register('notes')}></textarea>
           </div>
           <button type="submit" className="btn btn-pink w-100">Confirm Delivery</button>
         </form>
