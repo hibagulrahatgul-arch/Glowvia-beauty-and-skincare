@@ -18,7 +18,7 @@ function AddProduct() {
     resolver: zodResolver(productSchema),
     defaultValues: { name: '', category: '', price: '', quantity: '' },
   });
-
+//form submittion
   const handleFormSubmit = (formData) => {
     console.log('New Product:', formData);
     alert('Product Added!');

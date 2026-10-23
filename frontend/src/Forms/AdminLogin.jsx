@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { adminLogin } from '../service/api';
 
 const loginSchema = z.object({
   email: z.string().trim().min(1, 'Email is required').email('Enter a valid email address'),
@@ -14,16 +15,16 @@ function AdminLogin() {
     formState: { errors },
   } = useForm({ resolver: zodResolver(loginSchema), defaultValues: { email: '', password: '' } });
 
-  const handleFormSubmit = (formData) => {
-    console.log('Admin Login:', formData);
-    alert('Admin Login Submitted!');
-  };
+  async function myFormSubmitFunction(data) {
+    console.log('Form submitted with data:', data);
+    await adminLogin(data);
+  }
 
   return (
     <div className="card shadow-sm mx-auto" style={{ maxWidth: '450px' }}>
       <div className="card-body p-4">
         <h3 className="card-title text-center mb-4">Admin Login</h3>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <form onSubmit={handleSubmit(myFormSubmitFunction)}>
           <div className="mb-3">
             <label className="form-label">Email</label>
             <input type="email" className="form-control" {...register('email')} />
