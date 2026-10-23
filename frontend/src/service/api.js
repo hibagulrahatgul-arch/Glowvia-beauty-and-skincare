@@ -1,6 +1,10 @@
 import axios from "axios";
 
-export async function adminLogin(data) {
-  console.log("adminLogin function called");
-  return await axios.post("http://localhost:3000/admin/admin-login", data);
+const API =axios.create({
+  baseURL: "http://localhost:3000",
+});
+export async function customersignupaxiosfunction(data) {
+  console.log("customersignup function called");
+  return await API.post("/customersignup", data);
 }
+  

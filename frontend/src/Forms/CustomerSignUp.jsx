@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { customersignupaxiosfunction } from '../service/api';
 
 const signUpSchema = z.object({
   name: z.string().trim().min(1, 'Name is required'),
@@ -23,10 +24,12 @@ function CustomerSignUp() {
     defaultValues: { name: '', email: '', phone: '', password: '', confirmPassword: '' },
   });
 
-  const handleFormSubmit = (formData) => {
-    console.log('Customer Sign Up:', formData);
-    alert('Sign Up Successful!');
-  };
+ async function onSubmit(data) {
+    console.log("Form submitted.", data);
+    await customersignupaxiosfunction(data);
+  }
+
+
 
   return (
     <div className="card shadow-sm mx-auto" style={{ maxWidth: '480px' }}>
