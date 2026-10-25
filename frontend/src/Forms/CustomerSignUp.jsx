@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -15,18 +16,31 @@ const signUpSchema = z.object({
 });
 
 function CustomerSignUp() {
+  const [submitMessage, setSubmitMessage] = useState(null);
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: { name: '', email: '', phone: '', password: '', confirmPassword: '' },
   });
 
- async function onSubmit(data) {
-    console.log("Form submitted.", data);
-    await customersignupaxiosfunction(data);
+async function onSubmit(data) {
+    setSubmitMessage(null);
+    try {
+      const response = await customersignupaxiosfunction(data);
+      setSubmitMessage({
+        type: 'success',
+        text: typeof response === 'string' ? response : 'Account created successfully.',
+      });
+    } catch (error) {
+      const responseMessage = error.response?.data || error.message;
+      setSubmitMessage({
+        type: 'danger',
+        text: typeof responseMessage === 'string' ? responseMessage : 'Unable to create your account.',
+      });
+    }
   }
 
 
@@ -35,7 +49,12 @@ function CustomerSignUp() {
     <div className="card shadow-sm mx-auto" style={{ maxWidth: '480px' }}>
       <div className="card-body p-4">
         <h3 className="card-title text-center mb-4">Customer Sign Up</h3>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
+        {submitMessage && (
+          <div className={`alert alert-${submitMessage.type}`} role="alert">
+            {submitMessage.text}
+          </div>
+        )}
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-3">
             <label className="form-label">Full Name</label>
             <input type="text" className="form-control" {...register('name')} />
@@ -61,7 +80,9 @@ function CustomerSignUp() {
             <input type="password" className="form-control" {...register('confirmPassword')} />
             {errors.confirmPassword && <span className="text-danger">{errors.confirmPassword.message}</span>}
           </div>
-          <button type="submit" className="btn btn-pink w-100">Sign Up</button>
+          <button type="submit" className="btn btn-pink w-100" disabled={isSubmitting}>
+            {isSubmitting ? 'Signing up...' : 'Sign Up'}
+          </button>
         </form>
       </div>
     </div>
