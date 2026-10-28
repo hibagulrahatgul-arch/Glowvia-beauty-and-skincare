@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { updateProductAxiosFunction } from '../service/api';
 
 const dummyProducts = [
   { id: 1, name: 'Hydrating Face Serum' },
@@ -25,8 +26,10 @@ function UpdateProduct() {
     defaultValues: { productId: '', price: '', quantity: '' },
   });
 
-  const handleFormSubmit = (formData) => {
+  const handleFormSubmit = async (formData) => {
     console.log('Updated Product:', formData);
+    const { productId, ...productData } = formData;
+    await updateProductAxiosFunction(productId, productData);
     alert('Product Updated!');
   };
 
@@ -40,7 +43,7 @@ function UpdateProduct() {
             <select className="form-select" {...register('productId')}>
               <option value="">-- Choose Product --</option>
               {dummyProducts.map((p) => (
-                <option key={p.id} value={p.id}>{p.name}</option>
+                <option key={p.id} value={p.name}>{p.name}</option>
               ))}
             </select>
             {errors.productId && <span className="text-danger">{errors.productId.message}</span>}

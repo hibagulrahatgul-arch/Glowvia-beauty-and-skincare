@@ -2,6 +2,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import {
+  addMembershipAxiosFunction,
+  updateMembershipAxiosFunction,
+} from '../service/api';
 
 const addMemberSchema = z.object({
   name: z.string().trim().min(1, 'Name is required'),
@@ -34,13 +38,16 @@ function ManageMembership() {
     defaultValues: { memberId: '', name: '', email: '' },
   });
 
-  const handleAddFormSubmit = (addData) => {
+  const handleAddFormSubmit = async (addData) => {
     console.log('New Member:', addData);
+    await addMembershipAxiosFunction(addData);
     alert('Member Added!');
   };
 
-  const handleUpdateFormSubmit = (updateData) => {
+  const handleUpdateFormSubmit = async (updateData) => {
     console.log('Updated Member:', updateData);
+    const { memberId, ...memberData } = updateData;
+    await updateMembershipAxiosFunction(memberId, memberData);
     alert('Member Data Updated!');
   };
 

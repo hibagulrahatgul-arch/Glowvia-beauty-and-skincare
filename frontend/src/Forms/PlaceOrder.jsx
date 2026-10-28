@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { placeOrderAxiosFunction } from '../service/api';
 
 const dummyProducts = [
   { id: 1, name: 'Hydrating Face Serum', price: 1299 },
@@ -26,8 +27,9 @@ function PlaceOrder() {
     defaultValues: { productId: '', quantity: '1', address: '', paymentMethod: 'Cash on Delivery' },
   });
 
-  const handleFormSubmit = (formData) => {
+  const handleFormSubmit = async (formData) => {
     console.log('Order Placed:', formData);
+    await placeOrderAxiosFunction(formData);
     alert('Order Placed Successfully!');
   };
 

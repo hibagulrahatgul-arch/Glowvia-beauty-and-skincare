@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { submitComplaintAxiosFunction } from '../service/api';
 
 const complaintSchema = z.object({
   orderId: z.string().trim().min(1, 'Order ID is required'),
@@ -18,8 +19,9 @@ function SubmitComplaint() {
     defaultValues: { orderId: '', subject: '', message: '' },
   });
 
-  const handleFormSubmit = (formData) => {
+  const handleFormSubmit = async (formData) => {
     console.log('Complaint Submitted:', formData);
+    await submitComplaintAxiosFunction(formData);
     alert('Complaint Submitted!');
   };
 

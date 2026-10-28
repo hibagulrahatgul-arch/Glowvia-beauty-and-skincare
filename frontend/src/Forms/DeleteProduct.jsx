@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { deleteProductAxiosFunction } from '../service/api';
 
 const dummyProducts = [
   { id: 1, name: 'Hydrating Face Serum' },
@@ -21,9 +22,10 @@ function DeleteProduct() {
     formState: { errors },
   } = useForm({ resolver: zodResolver(deleteProductSchema), defaultValues: { productId: '' } });
 
-  const handleFormSubmit = ({ productId }) => {
+  const handleFormSubmit = async ({ productId }) => {
     const confirmDelete = window.confirm('Are you sure you want to discontinue this product?');
     if (confirmDelete) {
+      await deleteProductAxiosFunction(productId);
       console.log('Discontinued Product ID:', productId);
       alert('Product Discontinued!');
       reset();
@@ -40,7 +42,7 @@ function DeleteProduct() {
             <select className="form-select" {...register('productId')}>
               <option value="">-- Choose Product --</option>
               {dummyProducts.map((p) => (
-                <option key={p.id} value={p.id}>{p.name}</option>
+                <option key={p.id} value={p.name}>{p.name}</option>
               ))}
             </select>
             {errors.productId && <span className="text-danger">{errors.productId.message}</span>}

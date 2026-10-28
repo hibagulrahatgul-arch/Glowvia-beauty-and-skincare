@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { addProductAxiosFunction } from '../service/api';
 
 const productSchema = z.object({
   name: z.string().trim().min(1, 'Product name is required'),
@@ -19,10 +20,25 @@ function AddProduct() {
     defaultValues: { name: '', category: '', price: '', quantity: '' },
   });
 //form submittion
-  const handleFormSubmit = (formData) => {
-    console.log('New Product:', formData);
-    alert('Product Added!');
-  };
+  const handleFormSubmit = async (formData) => {
+  try {
+    console.log("New Product:", formData);
+
+    const response = await addProductAxiosFunction({
+      name: formData.name,
+      category: formData.category,
+      price: Number(formData.price),
+      quantity: Number(formData.quantity),
+    });
+
+    console.log("Response:", response);
+    alert("Product Added Successfully!");
+
+  } catch (error) {
+    console.error("Error:", error.response?.data || error.message);
+    alert("Failed to add product!");
+  }
+};
 
   return (
     <div className="card shadow-sm mx-auto" style={{ maxWidth: '500px' }}>
