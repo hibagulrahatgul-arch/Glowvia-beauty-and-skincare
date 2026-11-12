@@ -9,16 +9,16 @@ import {
 
 const router = express.Router();
 
-// Get all complaints
+// Tamam complaints hasil karne ki GET route.
 router.get("/", getAllComplaintsController);
 
-// Submit complaint
+// Nayi complaint jama karne ki POST route.
 router.post("/", submitComplaintController);
 
-// Update complaint
+// Complaint ID ke mutabiq status update karne ki PUT route.
 router.put("/:complaintId", updateComplaintController);
 
-// Delete complaint
+// Complaint ID ke mutabiq complaint delete karne ki DELETE route.
 router.delete("/:complaintId", deleteComplaintController);
 
 export default router;

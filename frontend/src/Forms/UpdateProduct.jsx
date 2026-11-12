@@ -1,14 +1,8 @@
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { updateProductAxiosFunction } from '../service/api';
-
-const dummyProducts = [
-  { id: 1, name: 'Hydrating Face Serum' },
-  { id: 2, name: 'Vitamin C Face Cream' },
-  { id: 3, name: 'Gentle Face Wash' },
-  { id: 4, name: 'Lip Care Balm' },
-];
+import { getProduct, updateProductAxiosFunction } from '../service/api';
 
 const updateProductSchema = z.object({
   productId: z.string().min(1, 'Select a product'),
@@ -17,6 +11,9 @@ const updateProductSchema = z.object({
 });
 
 function UpdateProduct() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const {
     register,
     handleSubmit,
@@ -26,11 +23,46 @@ function UpdateProduct() {
     defaultValues: { productId: '', price: '', quantity: '' },
   });
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const result = await getProduct();
+        setProducts(result.data);
+      } catch (error) {
+        console.error(
+          'Error fetching products:',
+          error.response?.data || error.message
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   const handleFormSubmit = async (formData) => {
-    console.log('Updated Product:', formData);
-    const { productId, ...productData } = formData;
-    await updateProductAxiosFunction(productId, productData);
-    alert('Product Updated!');
+    try {
+      const selectedProduct = products.find(
+        (product) => product.name === formData.productId
+      );
+      if (!selectedProduct) {
+        alert('Product not found. Please refresh and try again.');
+        return;
+      }
+
+      await updateProductAxiosFunction(formData.productId, {
+        price: formData.price === '' ? selectedProduct.price : Number(formData.price),
+        quantity: formData.quantity === '' ? selectedProduct.quantity : Number(formData.quantity),
+      });
+      alert('Product Updated!');
+    } catch (error) {
+      console.error(
+        'Error updating product:',
+        error.response?.data || error.message
+      );
+      alert('Failed to update product!');
+    }
   };
 
   return (
@@ -41,12 +73,19 @@ function UpdateProduct() {
           <div className="mb-3">
             <label className="form-label">Select Product</label>
             <select className="form-select" {...register('productId')}>
-              <option value="">-- Choose Product --</option>
-              {dummyProducts.map((p) => (
-                <option key={p.id} value={p.name}>{p.name}</option>
+              <option value="">
+                {loading ? 'Loading products...' : '-- Choose Product --'}
+              </option>
+              {products.map((product) => (
+                <option key={product._id} value={product.name}>
+                  {product.name}
+                </option>
               ))}
             </select>
             {errors.productId && <span className="text-danger">{errors.productId.message}</span>}
+            {!loading && products.length === 0 && (
+              <span className="text-muted">No products available to update</span>
+            )}
           </div>
           <div className="row">
             <div className="col-md-6 mb-3">

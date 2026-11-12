@@ -9,16 +9,16 @@ import {
 
 const router = express.Router();
 
-// Get all orders
+// Tamam orders hasil karne ki GET route.
 router.get("/", getAllOrdersController);
 
-// Place an order
+// Naya order place karne ki POST route.
 router.post("/", placeOrderController);
 
-// Pickup an order
+// Order ID ke zariye pickup status update karne ki PUT route.
 router.put("/:orderId/pickup", pickupOrderController);
 
-// Deliver an order
+// Order ID ke zariye delivery status update karne ki PUT route.
 router.put("/:orderId/deliver", deliverOrderController);
 
 export default router;

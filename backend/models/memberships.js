@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Membership record ke fields aur unki validation ka schema.
 const membershipSchema = new mongoose.Schema({
   memberId: {
     type: String,
@@ -20,6 +21,7 @@ const membershipSchema = new mongoose.Schema({
   },
 });
 
+// Schema se Membership model banaya jata hai.
 const Membership = mongoose.model("Membership", membershipSchema);
 
 export default Membership;

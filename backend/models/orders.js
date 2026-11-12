@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Order record ke fields, validation aur default notes ka schema.
 const orderSchema = new mongoose.Schema({
   orderId: {
     type: Number,
@@ -32,6 +33,7 @@ const orderSchema = new mongoose.Schema({
   },
 });
 
+// Schema se Order model banaya jata hai.
 const Order = mongoose.model("Order", orderSchema);
 
 export default Order;

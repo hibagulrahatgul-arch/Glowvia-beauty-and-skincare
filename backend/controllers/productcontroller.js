@@ -1,5 +1,15 @@
 import Product from "../models/products.js";
 
+export const getProductsController = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    res.status(500).send("Error fetching products: " + error);
+  }
+};
+
+// Naya product database mein save karta hai.
 export const addProductController = (req, res) => {
   const newProduct = new Product({
     name: req.body.name,
@@ -15,6 +25,7 @@ export const addProductController = (req, res) => {
     );
 };
 
+// Product ke naam ke zariye uski qeemat aur quantity update karta hai.
 export const updateProductController = (req, res) => {
   Product.findOneAndUpdate(
     { name: req.params.name },
@@ -25,6 +36,7 @@ export const updateProductController = (req, res) => {
     { new: true, runValidators: true }
   )
     .then((product) => {
+      // Product na milne par 404 response bheja jata hai.
       if (!product) {
         return res.status(404).send("Product not found");
       }
@@ -36,9 +48,11 @@ export const updateProductController = (req, res) => {
     );
 };
 
+// Product ko uske naam ke zariye database se delete karta hai.
 export const deleteProductController = (req, res) => {
   Product.findOneAndDelete({ name: req.params.name })
     .then((product) => {
+      // Product na milne par 404 response bheja jata hai.
       if (!product) {
         return res.status(404).send("Product not found");
       }

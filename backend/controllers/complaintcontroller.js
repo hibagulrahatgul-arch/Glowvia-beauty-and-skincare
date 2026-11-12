@@ -1,5 +1,6 @@
 import Complaint from "../models/complaints.js";
 
+// Customer ki complaint ko Pending status ke sath save karta hai.
 export const submitComplaintController = (req, res) => {
   const newComplaint = new Complaint({
     complaintId: Date.now(),
@@ -16,7 +17,7 @@ export const submitComplaintController = (req, res) => {
     );
 };
 
-
+// Database se tamam complaints la kar response mein bhejta hai.
 export const getAllComplaintsController = async (req, res) => {
   try {
     const complaints = await Complaint.find();
@@ -31,7 +32,7 @@ export const getAllComplaintsController = async (req, res) => {
   }
 };
 
-
+// Complaint ka status uski ID ke zariye update karta hai.
 export const updateComplaintController = (req, res) => {
   Complaint.findOneAndUpdate(
     { complaintId: req.params.complaintId },
@@ -39,6 +40,7 @@ export const updateComplaintController = (req, res) => {
     { new: true, runValidators: true }
   )
     .then((complaint) => {
+      // Record na milne par 404 response bheja jata hai.
       if (!complaint) {
         return res.status(404).send("Complaint not found");
       }
@@ -50,9 +52,11 @@ export const updateComplaintController = (req, res) => {
     );
 };
 
+// Complaint ko uski ID ke zariye database se delete karta hai.
 export const deleteComplaintController = (req, res) => {
   Complaint.findOneAndDelete({ complaintId: req.params.complaintId })
     .then((complaint) => {
+      // Record na milne par 404 response bheja jata hai.
       if (!complaint) {
         return res.status(404).send("Complaint not found");
       }

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Product record ke fields aur unki validation ka schema.
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -20,6 +21,7 @@ const productSchema = new mongoose.Schema({
   },
 });
 
+// Schema se Product model banaya jata hai.
 const Product = mongoose.model("Product", productSchema);
 
 export default Product;

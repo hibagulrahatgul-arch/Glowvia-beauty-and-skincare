@@ -1,5 +1,6 @@
 import Membership from "../models/memberships.js";
 
+// Nayi membership ki ID bana kar usay database mein save karta hai.
 export const addMembershipController = (req, res) => {
   const newMembership = new Membership({
     memberId: String(Date.now()),
@@ -15,12 +16,15 @@ export const addMembershipController = (req, res) => {
     );
 };
 
+// Di hui member ID ke mutabiq naam ya email update karta hai.
 export const updateMembershipController = (req, res) => {
   const updateData = {};
 
+  // Sirf bheje gaye naam ko update data mein shamil karta hai.
   if (req.body.name) {
     updateData.name = req.body.name;
   }
+  // Sirf bheje gaye email ko update data mein shamil karta hai.
   if (req.body.email) {
     updateData.email = req.body.email;
   }
@@ -31,6 +35,7 @@ export const updateMembershipController = (req, res) => {
     { new: true, runValidators: true }
   )
     .then((membership) => {
+      // Member na milne par 404 response bheja jata hai.
       if (!membership) {
         return res.status(404).send("Member not found");
       }

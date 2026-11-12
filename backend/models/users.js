@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// User record ke fields aur unki validation ka schema.
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -20,6 +21,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+// Schema se User model banaya jata hai.
 const User = mongoose.model("User", userSchema);
 
 export default User;

@@ -20,6 +20,10 @@ export async function customerLogin(data) {
   return res.data;
 }
 
+export async function getProduct() {
+  return API.get("/products");
+}
+
 export async function addProductAxiosFunction(data) {
   const res = await API.post("/products", data);
   return res.data;
@@ -34,7 +38,7 @@ export async function deleteProductAxiosFunction(name) {
   const res = await API.delete(`/products/${encodeURIComponent(name)}`);
   return res.data;
 }
-
+//async operation ko handle karta hai  jesy koya resquest bejhna
 export async function placeOrderAxiosFunction(data) {
   const res = await API.post("/orders", data);
   return res.data;

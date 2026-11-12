@@ -1,8 +1,10 @@
 import User from "../models/users.js";
 
+// Naye user ko database mein register karta hai.
 export const authController = (req, res) => {
   const { name, email, phone, password } = req.body;
 
+  // Request ke data se user ka naya record banaya jata hai.
   const newUser = new User({
     name: name,
     email: email,
@@ -17,9 +19,11 @@ export const authController = (req, res) => {
     );
 };
 
+// Email aur password ke zariye user ka login check karta hai.
 export const authLoginController = (req, res) => {
   User.findOne({ email: req.body.email, password: req.body.password })
     .then((user) => {
+      // Agar matching user na mile to login reject hota hai.
       if (!user) {
         return res.status(401).send("Invalid email or password");
       }

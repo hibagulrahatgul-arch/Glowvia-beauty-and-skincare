@@ -1,5 +1,6 @@
 import Order from "../models/orders.js";
 
+// Request ke data se naya order bana kar database mein save karta hai.
 export const placeOrderController = (req, res) => {
   const newOrder = new Order({
     orderId: Date.now(),
@@ -17,6 +18,7 @@ export const placeOrderController = (req, res) => {
     );
 };
 
+// Order ka status Picked Up mein tabdeel karta hai.
 export const pickupOrderController = (req, res) => {
   Order.findOneAndUpdate(
     { orderId: req.params.orderId },
@@ -24,6 +26,7 @@ export const pickupOrderController = (req, res) => {
     { new: true, runValidators: true }
   )
     .then((order) => {
+      // Order na milne par 404 response bheja jata hai.
       if (!order) {
         return res.status(404).send("Order not found");
       }
@@ -35,6 +38,7 @@ export const pickupOrderController = (req, res) => {
     );
 };
 
+// Order ka status Delivered karta hai aur di hui notes save karta hai.
 export const deliverOrderController = (req, res) => {
   Order.findOneAndUpdate(
     { orderId: req.params.orderId },
@@ -42,6 +46,7 @@ export const deliverOrderController = (req, res) => {
     { new: true, runValidators: true }
   )
     .then((order) => {
+      // Order na milne par 404 response bheja jata hai.
       if (!order) {
         return res.status(404).send("Order not found");
       }
@@ -53,6 +58,7 @@ export const deliverOrderController = (req, res) => {
     );
 };
 
+// Tamam orders ko naye order se purane order ki tarteeb mein bhejta hai.
 export const getAllOrdersController = async (req, res) => {
   try {
     const orders = await Order.find().sort({ orderId: -1 });
